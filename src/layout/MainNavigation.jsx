@@ -9,7 +9,7 @@ const MainNavigation = () => {
         <ul className={styles.list}>
           <li>
             <NavLink
-              to=''
+              to='/'
               end
             >
               Home
@@ -17,7 +17,7 @@ const MainNavigation = () => {
           </li>
           <li>
             <NavLink
-              to='events'
+              to='/events'
             >
               Events
             </NavLink>
