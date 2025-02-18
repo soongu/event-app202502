@@ -34,7 +34,7 @@ export default EventsPage;
 // export const loader = async () => fetch(`http://localhost:9000/api/events`);
 
 export const loader = async () => {
-  const res = await fetch(`http://localhost:9000/api/events`);
+  const res = await fetch(`http://localhost:9000/api/events?sort=id`);
   // const jsonData = await res.json();
 
   // 예외처리
