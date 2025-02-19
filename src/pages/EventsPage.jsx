@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import EventList from "../components/EventList";
+import EventSkeleton from "../components/EventSkeleton";
 
 const EventsPage = () => {
 
@@ -18,10 +19,17 @@ const EventsPage = () => {
   // 더 이상 가져올 데이터가 있는지 여부
   const [isFinish, setIsFinish] = useState(false);
 
+  // 로딩바를 보여주기 여부
+  const [loading, setLoading] = useState(false);
+
   // 서버에서 데이터를 불러오는 함수
   const fetchEvents = async () => { 
 
-    if (isFinish) return;
+    if (isFinish || loading) return;
+
+    // 강제로 2초간 로딩 부여
+    setLoading(true);
+    await new Promise(r => setTimeout(r, 1200));
 
     const response = await fetch(`http://localhost:9000/api/events?sort=id&page=${currentPage}`);
     const { hasNext, eventList: events } = await response.json();
@@ -30,6 +38,8 @@ const EventsPage = () => {
     setIsFinish(!hasNext);
     // 페이지번호 갱신
     setCurrentPage(prev => prev + 1);
+
+    setLoading(false);
   };
 
 
@@ -40,7 +50,7 @@ const EventsPage = () => {
     // 무한스크롤 옵저버 생성
     const observer = new IntersectionObserver(([target]) => { 
       // entries는 옵저버가 감시하고 있는 대상들의 집합배열
-      if (!target.isIntersecting || isFinish) {
+      if (!target.isIntersecting || isFinish || loading) {
         return;
       }
       fetchEvents();
@@ -68,8 +78,12 @@ const EventsPage = () => {
     <>
       <EventList eventList={eventList} />
       {/* 무한스크롤을 위한 옵저버 감시 태그 */}
-      <div ref={observerRef} style={{ height: 300, background: 'yellow' }}>
+      <div
+        ref={observerRef}
+        style={{ height: 100 }}
+      >
         {/* 로딩 바 or 로딩 프로그레스바 or 스켈레톤 폴백 */}
+        {loading && <EventSkeleton />}
       </div>
     </>
   );
