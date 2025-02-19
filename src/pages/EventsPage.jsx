@@ -7,21 +7,37 @@ const EventsPage = () => {
   // loader가 리턴한 데이터 받아오기
   // const { eventList, hasNext } = useLoaderData();
 
+  // 서버에서 가져온 화면에 렌더링할 이벤트 목록
   const [eventList, setEventList] = useState([]);
+
+  // 현재 페이지 번호
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // 더 이상 가져올 데이터가 있는지 여부
+  const [isFinish, setIsFinish] = useState(false);
+
+  // 서버에서 데이터를 불러오는 함수
+  const fetchEvents = async () => { 
+
+    if (isFinish) return;
+
+    const response = await fetch(`http://localhost:9000/api/events?sort=id&page=${currentPage}`);
+    const { hasNext, eventList: events } = await response.json();
+
+    setEventList(prev => [...prev, ...events]);
+    setIsFinish(!hasNext);
+    // 페이지번호 갱신
+    setCurrentPage(prev => prev + 1);
+  };
+
+
 
   // useEffect는 렌더링 이후에 실행됨
   useEffect(() => { 
 
-    const fetchEvents = async () => { 
-      const response = await fetch(`http://localhost:9000/api/events?sort=id&page=1`);
-      const { hasNext, eventList: events } = await response.json();
-
-      setEventList(events);
-    };
-
     fetchEvents();
 
-  }, []);
+  }, [currentPage]);
 
   // console.log('event page render!!');
   
