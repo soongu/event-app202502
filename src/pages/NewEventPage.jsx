@@ -12,7 +12,7 @@ export default NewEventPage;
   action함수 트리거방법
   1. form태그를 Form태그로 변경해야 함
 */
-export const action = async ({ request }) => {
+export const action = async ({ request, params }) => {
 
   // console.log('이벤트 생성 요청 보내기!!');
 
@@ -27,8 +27,15 @@ export const action = async ({ request }) => {
   };
   // console.log(payload);
 
+
+  // 서버 요청 URL을 요청방식에 따라 동적으로 변경
+  let requestUrl = `http://localhost:9000/api/events`;
+  if (request.method === 'PUT') {
+    requestUrl += `/${params.eventId}`;
+  }
+
   // 서버로 페칭
-  const response = await fetch(`http://localhost:9000/api/events`, {
+  const response = await fetch(requestUrl, {
     method: request.method,
     headers: {
       'Content-Type': 'application/json',
