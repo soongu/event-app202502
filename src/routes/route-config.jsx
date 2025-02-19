@@ -27,7 +27,7 @@ const router = createBrowserRouter([
             index: true,
             element: <EventsPage />,
             // loader함수는 이 페이지가 라우팅될 때 자동으로 트리거되는 함수
-            loader: eventsLoader,
+            // loader: eventsLoader,
           },
           {
             path: 'new',

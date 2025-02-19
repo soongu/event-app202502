@@ -5,23 +5,23 @@ import { useLoaderData } from "react-router-dom";
 const EventsPage = () => {
 
   // loader가 리턴한 데이터 받아오기
-  const eventList = useLoaderData();
+  // const { eventList, hasNext } = useLoaderData();
 
-  // const [eventList, setEventList] = useState([]);
+  const [eventList, setEventList] = useState([]);
 
   // useEffect는 렌더링 이후에 실행됨
-  // useEffect(() => { 
+  useEffect(() => { 
 
-  //   const fetchEvents = async () => { 
-  //     const response = await fetch(`http://localhost:9000/api/events`);
-  //     const responseData = await response.json();
+    const fetchEvents = async () => { 
+      const response = await fetch(`http://localhost:9000/api/events?sort=id&page=1`);
+      const { hasNext, eventList: events } = await response.json();
 
-  //     setEventList(responseData);
-  //   };
+      setEventList(events);
+    };
 
-  //   fetchEvents();
+    fetchEvents();
 
-  // }, []);
+  }, []);
 
   // console.log('event page render!!');
   
@@ -34,7 +34,7 @@ export default EventsPage;
 // export const loader = async () => fetch(`http://localhost:9000/api/events`);
 
 export const loader = async () => {
-  const res = await fetch(`http://localhost:9000/api/events?sort=id`);
+  const res = await fetch(`http://localhost:9000/api/events?sort=id&page=1`);
   // const jsonData = await res.json();
 
   // 예외처리
