@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSubmit } from 'react-router-dom';
 import styles from './EventItem.module.scss';
 
 const EventItem = ({ event }) => {
@@ -13,16 +13,22 @@ const EventItem = ({ event }) => {
     'start-date': date,
   } = event;
 
+  // action함수를 트리거하는 hook
+  const submit = useSubmit();
 
   // 삭제 처리 이벤트
   const handleRemove = e => { 
 
-    if (!confirm('정말 삭제하시겠습니까?')) return;
+    // Form 없이 action함수를 트리거하는 방법 - 낙관적 업데이트
+    submit(null, { method: 'DELETE' });
 
-    (async () => { 
-      const res = await fetch(`http://localhost:9000/api/events/${id}`, { method: 'DELETE' });
-      if (res.ok) navigate('/events');
-    })();
+
+    // if (!confirm('정말 삭제하시겠습니까?')) return;
+
+    // (async () => { 
+    //   const res = await fetch(`http://localhost:9000/api/events/${id}`, { method: 'DELETE' });
+    //   if (res.ok) navigate('/events');
+    // })();
 
   };
 

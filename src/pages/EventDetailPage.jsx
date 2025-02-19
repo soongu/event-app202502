@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { redirect, useLoaderData, useParams } from 'react-router-dom';
 import EventItem from '../components/EventItem';
 
 
@@ -38,4 +38,16 @@ export const loader = async ({ params }) => {
   const response = await fetch(`http://localhost:9000/api/events/${eventId}`);
 
   return response;
+};
+
+
+// 삭제처리 액션 함수
+export const deleteAction = async ({ params }) => {
+  // console.log('삭제 액션 트리거!');
+
+  if (!confirm('정말 삭제하시겠습니까?')) return;
+
+  const res = await fetch(`http://localhost:9000/api/events/${params.eventId}`, { method: 'DELETE' });
+  
+  return redirect('/events');
 };
