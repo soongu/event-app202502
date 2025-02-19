@@ -1,7 +1,7 @@
 import { Form, useNavigate } from 'react-router-dom';
 import styles from './EventForm.module.scss';
 
-const EventForm = () => {
+const EventForm = ({ method }) => {
 
   // 링크 이동시 새로고침 없이 이동하는 훅
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const EventForm = () => {
   // 3. method옵션을 설정함
   return (
     <Form
-      method='POST'
+      method={method}
       className={styles.form}
       noValidate
       // onSubmit={handleSubmit}
@@ -89,8 +89,8 @@ const EventForm = () => {
         />
       </p>
       <div className={styles.actions}>
-        <button type='button'>Cancel</button>
-        <button>Save</button>
+        <button type='button' onClick={() => navigate('..')}>Cancel</button>
+        <button>{method === 'POST' ? 'Save' : 'Modify'}</button>
       </div>
     </Form>
   );
