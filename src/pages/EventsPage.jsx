@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EventList from "../components/EventList";
-import { useLoaderData } from "react-router-dom";
 
 const EventsPage = () => {
+
+  // 무한스크롤 옵저버가 감시할 태그 ref
+  const observerRef = useRef();
 
   // loader가 리턴한 데이터 받아오기
   // const { eventList, hasNext } = useLoaderData();
@@ -35,13 +37,42 @@ const EventsPage = () => {
   // useEffect는 렌더링 이후에 실행됨
   useEffect(() => { 
 
-    fetchEvents();
+    // 무한스크롤 옵저버 생성
+    const observer = new IntersectionObserver(([target]) => { 
+      // entries는 옵저버가 감시하고 있는 대상들의 집합배열
+      if (!target.isIntersecting || isFinish) {
+        return;
+      }
+      fetchEvents();
+    }, {
+      // 관찰하고 있는 대상의 높이가 50% 보일 때 감지 실행
+      threshold: 0.5
+    });
+
+    // 옵저버의 감시 대상을 설정
+    if (observerRef.current) {
+      // 감시 설정
+      observer.observe(observerRef.current);
+    }
+
+    // 다 불러왔으면 감시 해제
+    return () => { 
+      observer.disconnect();
+    };
 
   }, [currentPage]);
 
   // console.log('event page render!!');
   
-  return <EventList eventList={eventList} />;
+  return (
+    <>
+      <EventList eventList={eventList} />
+      {/* 무한스크롤을 위한 옵저버 감시 태그 */}
+      <div ref={observerRef} style={{ height: 300, background: 'yellow' }}>
+        {/* 로딩 바 or 로딩 프로그레스바 or 스켈레톤 폴백 */}
+      </div>
+    </>
+  );
 };
 
 export default EventsPage;
