@@ -1,10 +1,21 @@
 import { Form, useNavigate } from 'react-router-dom';
 import styles from './EventForm.module.scss';
 
-const EventForm = ({ method }) => {
+const EventForm = ({ method, event = {} }) => {
 
   // 링크 이동시 새로고침 없이 이동하는 훅
   const navigate = useNavigate();
+
+  const { title, desc, 'img-url': image, 'start-date': date } = event;
+
+  // yyyy년 MM월 dd일 ->  yyyy-MM-dd 로 변경
+  const formatDate = (date) => { 
+    const [yearPart, monthDayPart] = date.split('년 ');
+    const [monthPart, dayPart] = monthDayPart.split('월 ');
+    
+    return `${yearPart}-${monthPart}-${dayPart.replace('일', '')}`;
+    
+  };
 
   // 서버로 데이터 보내기
   // const handleSubmit = e => {
@@ -59,6 +70,7 @@ const EventForm = ({ method }) => {
           type='text'
           name='title'
           required
+          defaultValue={event ? title : ''}
         />
       </p>
       <p>
@@ -68,6 +80,7 @@ const EventForm = ({ method }) => {
           type='url'
           name='image'
           required
+          defaultValue={event ? image : ''}
         />
       </p>
       <p>
@@ -77,6 +90,7 @@ const EventForm = ({ method }) => {
           type='date'
           name='date'
           required
+          defaultValue={event ? formatDate(date) : ''}
         />
       </p>
       <p>
@@ -86,10 +100,15 @@ const EventForm = ({ method }) => {
           name='description'
           rows='5'
           required
+          defaultValue={event ? desc : ''}
         />
       </p>
       <div className={styles.actions}>
-        <button type='button' onClick={() => navigate('..')}>Cancel</button>
+        <button
+          type='button'
+          onClick={() => navigate('..')}>
+          Cancel
+        </button>
         <button>{method === 'POST' ? 'Save' : 'Modify'}</button>
       </div>
     </Form>
