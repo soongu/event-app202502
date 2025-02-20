@@ -1,5 +1,6 @@
 import { redirect } from 'react-router-dom';
 import EventForm from '../components/EventForm';
+import { EVENT_API_URL } from '../config/host-config';
 
 const NewEventPage = () => {
   return <EventForm method='POST' />;
@@ -29,7 +30,7 @@ export const action = async ({ request, params }) => {
 
 
   // 서버 요청 URL을 요청방식에 따라 동적으로 변경
-  let requestUrl = `http://localhost:9000/api/events`;
+  let requestUrl = EVENT_API_URL;
   if (request.method === 'PUT') {
     requestUrl += `/${params.eventId}`;
   }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import EventList from "../components/EventList";
 import EventSkeleton from "../components/EventSkeleton";
+import { EVENT_API_URL } from "../config/host-config";
 
 const EventsPage = () => {
 
@@ -31,7 +32,7 @@ const EventsPage = () => {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1200));
 
-    const response = await fetch(`http://localhost:9000/api/events?sort=id&page=${currentPage}`);
+    const response = await fetch(`${EVENT_API_URL}?sort=id&page=${currentPage}`);
     const { hasNext, eventList: events } = await response.json();
 
     setEventList(prev => [...prev, ...events]);
