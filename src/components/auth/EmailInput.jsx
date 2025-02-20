@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './SignUpForm.module.scss';
 import { AUTH_API_URL } from '../../config/host-config';
+import { debounce } from 'lodash';
 
-const EmailInput = () => {
+const EmailInput = ({ onSuccess }) => {
   const emailRef = useRef();
 
   // 에러 메시지 상태관리
@@ -26,10 +27,14 @@ const EmailInput = () => {
 
     // 중복체크
     (async () => {
-      const response = await fetch(`${AUTH_API_URL}/check-email?email=${inputValue}`);
+      const response = await fetch(
+        `${AUTH_API_URL}/check-email?email=${inputValue}`
+      );
       const { isDuplicate, message } = await response.json();
       if (isDuplicate) {
         setError(message);
+      } else {
+        onSuccess(); // 상위컴포넌트 SignUpForm에 다음스텝으로 넘어가도된다고 알려줌
       }
     })();
 
@@ -48,7 +53,7 @@ const EmailInput = () => {
         ref={emailRef}
         type='email'
         placeholder='Enter your email'
-        onChange={handleEmail}
+        onChange={debounce(handleEmail, 1200)}
         className={error ? styles.invalidInput : ''}
       />
       {error && <p className={styles.errorMessage}>{error}</p>}
