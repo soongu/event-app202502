@@ -1,23 +1,35 @@
 import { createBrowserRouter } from 'react-router-dom';
 import ErrorPage from '../pages/ErrorPage';
-import HomePage from '../pages/HomePage';
 import EventsPage, { loader as eventsLoader } from '../pages/EventsPage';
 import RootLayout from '../layout/RootLayout';
 import EventDetailPage, { loader as eventDetailLoader, deleteAction } from '../pages/EventDetailPage';
 import EventLayout from '../layout/EventLayout';
 import NewEventPage, {action as manipulateAction} from '../pages/NewEventPage';
 import EditPage from '../pages/EditPage';
+import HomeLayout from '../layout/HomeLayout';
+import WelcomePage from '../pages/WelcomePage';
+import SignUpPage from '../pages/SignUpPage';
 
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
-    // errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
-        element: <HomePage />,
+        path: '/',
+        element: <HomeLayout />,
+        children: [
+          {
+            index: true,
+            element: <WelcomePage />
+          }, // 웰컴페이지 (로그인 화면 or 로그인 완료시 보여줄 화면)
+          {
+            path: '/sign-up',
+            element: <SignUpPage />
+          }
+        ]
       },
       {
         path: '/events',
