@@ -1,9 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './SignUpForm.module.scss';
 
 const VerificationInput = () => {
 
   const inputsRef = useRef([]);
+
+  // 입력한 인증코드 숫자값을 관리
+  const [codes, setCodes] = useState(['','','','']);
 
   // input태그들을 ref에 바인딩
   const bindInputRef = ($input, index) => {
@@ -24,6 +27,13 @@ const VerificationInput = () => {
   // 입력이벤트
   const handleNumber = (e, index) => { 
     
+    // 입력한 모든 숫자를 하나로 연결
+    const inputValue = e.target.value;
+    
+    const copyCodes = [...codes];
+    copyCodes[index - 1] = inputValue;
+
+    setCodes(copyCodes);
 
     // 입력이 끝나면 다음 칸으로 포커스 이동
     focusNextInput(index);
@@ -32,7 +42,9 @@ const VerificationInput = () => {
   // 초기 렌더링시 첫번째 input에 포커싱
   useEffect(() => { 
     inputsRef.current[0].focus();
-  }, []);
+    // console.log(codes.join(''));
+    
+  }, [codes]);
 
   return (
     <>
