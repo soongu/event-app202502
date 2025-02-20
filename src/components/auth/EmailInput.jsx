@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './SignUpForm.module.scss';
+import { AUTH_API_URL } from '../../config/host-config';
 
 const EmailInput = () => {
   const emailRef = useRef();
@@ -24,6 +25,13 @@ const EmailInput = () => {
     }
 
     // 중복체크
+    (async () => {
+      const response = await fetch(`${AUTH_API_URL}/check-email?email=${inputValue}`);
+      const { isDuplicate, message } = await response.json();
+      if (isDuplicate) {
+        setError(message);
+      }
+    })();
 
     setError('');
   };

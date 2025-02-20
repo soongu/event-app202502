@@ -29,3 +29,4 @@ const AUTH = '/auth';
 // 만약에 클라이언트가 localhost면 
 // http://localhost:9000/api/events
 export const EVENT_API_URL = `${API_BASE_URL}${EVENT}`;
+export const AUTH_API_URL = `${API_BASE_URL}${AUTH}`;
