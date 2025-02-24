@@ -1,4 +1,4 @@
-import { Form, Link, useActionData } from 'react-router-dom'; // Link 컴포넌트 추가
+import { Form, Link, redirect, useActionData } from 'react-router-dom'; // Link 컴포넌트 추가
 import styles from './LoginForm.module.scss';
 import { AUTH_API_URL } from '../../config/host-config';
 
@@ -6,7 +6,7 @@ const LoginForm = () => {
 
   // action함수가 리턴한 데이터 받아오기
   const error = useActionData();
-  console.log(error);
+  // console.log(error);
   
 
   // 에러 정보를 상태관리
@@ -108,5 +108,12 @@ export const loginAction = async ({ request }) => {
     // 데이터를 리턴한다. 컴포넌트가 useActionData라는 훅으로 가져올 수 있음
     return data.message;
   }
+
+  // 로그인 성공시 local storage에 인증정보를 저장
+  // console.log(data);
+
+  localStorage.setItem('userData', JSON.stringify(data));
+
+  return redirect('/');
   
 };

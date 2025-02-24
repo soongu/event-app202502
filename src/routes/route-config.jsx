@@ -10,6 +10,7 @@ import HomeLayout from '../layout/HomeLayout';
 import WelcomePage from '../pages/WelcomePage';
 import SignUpPage from '../pages/SignUpPage';
 import { loginAction } from '../components/auth/LoginForm';
+import { userDataLoader } from '../config/auth-config';
 
 
 const router = createBrowserRouter([
@@ -25,7 +26,8 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <WelcomePage />,
-            action: loginAction
+            action: loginAction,
+            loader: userDataLoader
           }, // 웰컴페이지 (로그인 화면 or 로그인 완료시 보여줄 화면)
           {
             path: '/sign-up',
