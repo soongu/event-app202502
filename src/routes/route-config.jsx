@@ -9,6 +9,7 @@ import EditPage from '../pages/EditPage';
 import HomeLayout from '../layout/HomeLayout';
 import WelcomePage from '../pages/WelcomePage';
 import SignUpPage from '../pages/SignUpPage';
+import { loginAction } from '../components/auth/LoginForm';
 
 
 const router = createBrowserRouter([
@@ -23,7 +24,8 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <WelcomePage />
+            element: <WelcomePage />,
+            action: loginAction
           }, // 웰컴페이지 (로그인 화면 or 로그인 완료시 보여줄 화면)
           {
             path: '/sign-up',
