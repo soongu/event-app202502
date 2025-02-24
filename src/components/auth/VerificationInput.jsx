@@ -3,7 +3,7 @@ import styles from './SignUpForm.module.scss';
 import { debounce } from 'lodash';
 import { AUTH_API_URL } from '../../config/host-config';
 
-const VerificationInput = ({ email }) => {
+const VerificationInput = ({ email, onSuccess }) => {
   const inputsRef = useRef([]);
 
   // 입력한 인증코드 숫자값을 관리
@@ -56,6 +56,7 @@ const VerificationInput = ({ email }) => {
     // 다음 단계로 이동 신호 보내기
     // 에러메시지 제거
     setError('');
+    onSuccess();
 
   }, 700);
 
