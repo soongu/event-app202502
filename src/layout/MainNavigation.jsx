@@ -1,4 +1,4 @@
-import { NavLink, useLoaderData } from 'react-router-dom';
+import { Form, NavLink, useLoaderData } from 'react-router-dom';
 import styles from './MainNavigation.module.scss';
 
 const MainNavigation = () => {
@@ -32,12 +32,13 @@ const MainNavigation = () => {
             </NavLink>
           </li>
 
-          { 
-            userData &&
+          {userData && (
             <li>
-              <button style={{ width: '100%' }}>Logout</button>
+              <Form action='/logout' method='POST'>
+                  <button style={{ width: '100%' }}>Logout</button>
+              </Form>
             </li>
-          }
+          )}
         </ul>
       </nav>
     </header>

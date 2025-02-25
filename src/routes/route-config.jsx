@@ -10,7 +10,7 @@ import HomeLayout from '../layout/HomeLayout';
 import WelcomePage from '../pages/WelcomePage';
 import SignUpPage from '../pages/SignUpPage';
 import { loginAction } from '../components/auth/LoginForm';
-import { userDataLoader } from '../config/auth-config';
+import { logoutAction, userDataLoader } from '../config/auth-config';
 
 
 const router = createBrowserRouter([
@@ -34,6 +34,10 @@ const router = createBrowserRouter([
             path: '/sign-up',
             element: <SignUpPage />,
           },
+          {
+            path: '/logout',
+            action: logoutAction
+          }
         ],
       },
       {
