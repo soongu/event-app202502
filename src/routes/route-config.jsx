@@ -18,6 +18,8 @@ const router = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
+    loader: userDataLoader,  // 로그인한 유저정보 불러오기
+    id: 'user-data', // loader는 children들에게 전달되지 않음
     children: [
       {
         path: '/',
@@ -27,13 +29,12 @@ const router = createBrowserRouter([
             index: true,
             element: <WelcomePage />,
             action: loginAction,
-            loader: userDataLoader
           }, // 웰컴페이지 (로그인 화면 or 로그인 완료시 보여줄 화면)
           {
             path: '/sign-up',
-            element: <SignUpPage />
-          }
-        ]
+            element: <SignUpPage />,
+          },
+        ],
       },
       {
         path: '/events',
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
             path: ':eventId',
             element: <EventDetailPage />,
             loader: eventDetailLoader,
-            action: deleteAction
+            action: deleteAction,
           },
           {
             path: ':eventId/edit',

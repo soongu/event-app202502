@@ -2,6 +2,7 @@ import styles from './EventList.module.scss';
 import { Link } from 'react-router-dom';
 
 const EventList = ({ eventList }) => {
+
   const { events, list, item, content } = styles;
 
   return (
