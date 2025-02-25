@@ -2,6 +2,7 @@ import { redirect, useLoaderData } from 'react-router-dom';
 import EventItem from '../components/EventItem';
 import { EVENT_API_URL } from '../config/host-config';
 import { getUserToken } from '../config/auth-config';
+import { fetchWithAuth } from '../services/api';
 
 
 const EventDetailPage = () => {
@@ -36,9 +37,7 @@ export const loader = async ({ params }) => {
   // console.log(x);
   // console.log(params.eventId);
 
-  const response = await fetch(`${EVENT_API_URL}/${eventId}`, {
-    headers: {'Authorization': `Bearer ${getUserToken()}`}
-  });
+  const response = await fetchWithAuth(`${EVENT_API_URL}/${eventId}`);
 
   return response;
 };
@@ -50,12 +49,7 @@ export const deleteAction = async ({ params }) => {
 
   if (!confirm('정말 삭제하시겠습니까?')) return;
 
-  const res = await fetch(`${EVENT_API_URL}/${params.eventId}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${getUserToken()}`
-    }
-  });
+  const res = await fetchWithAuth(`${EVENT_API_URL}/${params.eventId}`, 'DELETE');
   
   return redirect('/events');
 };
