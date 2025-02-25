@@ -10,7 +10,7 @@ import HomeLayout from '../layout/HomeLayout';
 import WelcomePage from '../pages/WelcomePage';
 import SignUpPage from '../pages/SignUpPage';
 import { loginAction } from '../components/auth/LoginForm';
-import { logoutAction, userDataLoader } from '../config/auth-config';
+import { authCheckLoader, logoutAction, userDataLoader } from '../config/auth-config';
 
 
 const router = createBrowserRouter([
@@ -43,6 +43,7 @@ const router = createBrowserRouter([
       {
         path: '/events',
         element: <EventLayout />,
+        loader: authCheckLoader, //로그인 권한 검사 로더
         children: [
           {
             index: true,
