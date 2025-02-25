@@ -1,6 +1,7 @@
 import { redirect } from 'react-router-dom';
 import EventForm from '../components/EventForm';
 import { EVENT_API_URL } from '../config/host-config';
+import { getUserToken } from '../config/auth-config';
 
 const NewEventPage = () => {
   return <EventForm method='POST' />;
@@ -40,6 +41,7 @@ export const action = async ({ request, params }) => {
     method: request.method,
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getUserToken()}`
     },
     body: JSON.stringify(payload),
   });
