@@ -40,3 +40,6 @@ export const authCheckLoader = () => {
 
 // 인증토큰을 가져다주는 함수
 export const getUserToken = () => getUserData()?.token;
+
+// 권한을 가져다주는 함수
+export const getUserRole = () => getUserData()?.role;

@@ -1,10 +1,20 @@
 import { redirect } from 'react-router-dom';
 import EventForm from '../components/EventForm';
 import { EVENT_API_URL } from '../config/host-config';
-import { getUserToken } from '../config/auth-config';
 import { fetchWithAuth } from '../services/api';
+import { useEffect } from 'react';
+import { getUserRole } from '../config/auth-config';
 
 const NewEventPage = () => {
+
+  // 권한 검사 + 이벤트개수 검사
+  useEffect(() => {
+    const role = getUserRole();
+    if (role) {
+      console.log(`당신의 권한은 ${role}입니다.`);
+    }
+  }, []);
+
   return <EventForm method='POST' />;
 };
 
