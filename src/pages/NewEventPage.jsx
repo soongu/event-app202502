@@ -2,16 +2,20 @@ import { redirect } from 'react-router-dom';
 import EventForm from '../components/EventForm';
 import { EVENT_API_URL } from '../config/host-config';
 import { fetchWithAuth } from '../services/api';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { getUserRole } from '../config/auth-config';
+import EventContext from '../context/event-context';
 
 const NewEventPage = () => {
+
+  const { totalEventCount } = useContext(EventContext);
 
   // 권한 검사 + 이벤트개수 검사
   useEffect(() => {
     const role = getUserRole();
     if (role) {
       console.log(`당신의 권한은 ${role}입니다.`);
+      console.log(`당신이 생성한 이벤트 개수는 ${totalEventCount}개입니다.`);
     }
   }, []);
 

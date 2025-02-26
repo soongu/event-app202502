@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import EventList from "../components/EventList";
 import EventSkeleton from "../components/EventSkeleton";
 import { EVENT_API_URL } from "../config/host-config";
 import { fetchWithAuth } from "../services/api";
+import EventContext from "../context/event-context";
 
 const EventsPage = () => {
+
+  // 컨텍스트에서 총 이벤트 수를 갱신하는 함수를 소비
+  const { changeTotalEventCount } = useContext(EventContext);
 
   // 무한스크롤 옵저버가 감시할 태그 ref
   const observerRef = useRef();
@@ -35,6 +39,9 @@ const EventsPage = () => {
 
     const response = await fetchWithAuth(`${EVENT_API_URL}?sort=id&page=${currentPage}`);
     const { hasNext, eventList: events, totalCount } = await response.json();
+
+    // 총 이벤트 수를 컨텍스트에 저장
+    changeTotalEventCount(totalCount);
 
     setEventList(prev => [...prev, ...events]);
     setIsFinish(!hasNext);

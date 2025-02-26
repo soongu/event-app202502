@@ -11,6 +11,7 @@ import WelcomePage from '../pages/WelcomePage';
 import SignUpPage from '../pages/SignUpPage';
 import { loginAction } from '../components/auth/LoginForm';
 import { authCheckLoader, logoutAction, userDataLoader } from '../config/auth-config';
+import EventProvider from '../context/EventProvider';
 
 
 const router = createBrowserRouter([
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
-    loader: userDataLoader,  // 로그인한 유저정보 불러오기
+    loader: userDataLoader, // 로그인한 유저정보 불러오기
     id: 'user-data', // loader는 children들에게 전달되지 않음
     children: [
       {
@@ -36,13 +37,17 @@ const router = createBrowserRouter([
           },
           {
             path: '/logout',
-            action: logoutAction
-          }
+            action: logoutAction,
+          },
         ],
       },
       {
         path: '/events',
-        element: <EventLayout />,
+        element: (
+          <EventProvider>
+            <EventLayout />
+          </EventProvider>
+        ),
         loader: authCheckLoader, //로그인 권한 검사 로더
         children: [
           {
