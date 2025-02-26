@@ -3,6 +3,11 @@ import { redirect } from "react-router-dom";
 const USER_DATA_KEY = 'userData';
 
 
+// 사용자 정보를 로컬스토리지에 저장하는 함수
+export const setUserData = (userData) => { 
+  localStorage.setItem(USER_DATA_KEY, JSON.stringify(userData));
+};
+
 
 // 로그인한 유저의 정보를 로컬스토리지로부터 불러오는 함수
 const getUserData = () => { 
