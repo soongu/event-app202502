@@ -16,8 +16,8 @@ let backendHostName;
 if (clientHostName === 'localhost') {
   backendHostName = `http://localhost:${LOCAL_PORT}`;
 } else if (
-  clientHostName ===
-  'my-event-app-bucket-hong-ver0001.s3-website.ap-northeast-2.amazonaws.com'
+  clientHostName === 'gondue.co.kr.s3-website.ap-northeast-2.amazonaws.com'
+  || clientHostName ===  'gondue.co.kr'
 ) {
   backendHostName = `http://3.36.142.125:9000`;
 }

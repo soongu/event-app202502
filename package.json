@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "aws s3 sync ./dist s3://react-ci-cd-bucket-v001 --profile=react-admin"
   },
   "dependencies": {
     "lodash": "^4.17.21",
