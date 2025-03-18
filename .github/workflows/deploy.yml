@@ -22,12 +22,6 @@ jobs:
 
     - name: Build React App
       run: CI=false npm run build  # 프로덕션 빌드 생성
-    
-    - name: Debug Build Path
-      run: pwd && ls -la
-
-    - name: Check Build Output
-      run: ls -la dist
 
     - name: Deploy to AWS S3
       uses: jakejarvis/s3-sync-action@master
